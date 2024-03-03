@@ -1,10 +1,10 @@
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import Chat from "@/components/usechat";
+"use client"
+
+import Chat from "@/components/chat";
 const Conversation = () => {
   return (
     <>
-      <div className="flex h-screen flex-col items-center justify-center p-4">
+      <div className="flex h-screen flex-col items-center justify-center p-4 bg-slate-100">
         <div className="space-y-1">
           <h1 className="relative z-20 bg-gradient-to-r from-green-400 to-purple-300 bg-clip-text py-8 font-bold text-transparent sm:text-2xl md:text-4xl">
             Start Chatting with AI
