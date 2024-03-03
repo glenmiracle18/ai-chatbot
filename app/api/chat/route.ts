@@ -1,35 +1,51 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GoogleGenerativeAIStream, Message, StreamingTextResponse } from "ai";
+import { CohereStream, StreamingTextResponse } from "ai";
+import { CohereClient, Cohere } from "cohere-ai";
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY || "");
-
-// IMPORTANT! Set the runtime to edge
 export const runtime = "edge";
 
-// convert messages from the Vercel AI SDK Format to the format
-// that is expected by the Google GenAI SDK
-// const buildGoogleGenAIPrompt = (messages: Message[]) => ({
-//   contents: messages
-//     .filter(
-//       (message) => message.role === "user" || message.role === "assistant",
-//     )
-//     .map((message) => ({
-//       role: message.role === "user" ? "user" : "model",
-//       parts: [{ text: message.content }],
-//     })),
-// });
+// IMPORTANT! Set the dynamic to force-dynamic
+// Prevent nextjs to cache this route
+export const dynamic = "force-dynamic";
+
+if (!process.env.COHERE_API_KEY) {
+  throw new Error("Missing COHERE_API_KEY environment variable");
+}
+
+const cohere = new CohereClient({
+  token: process.env.COHERE_API_KEY,
+});
+
+const toCohereRole = (role: string): Cohere.ChatMessageRole => {
+  if (role === "user") {
+    return Cohere.ChatMessageRole.User;
+  }
+  return Cohere.ChatMessageRole.Chatbot;
+};
 
 export async function POST(req: Request) {
   // Extract the `prompt` from the body of the request
   const { messages } = await req.json();
+  const chatHistory = messages.map((message: any) => ({
+    message: message.content,
+    role: toCohereRole(message.role),
+  }));
+  const lastMessage = chatHistory.pop();
 
-  const geminiStream = await genAI
-    .getGenerativeModel({ model: "gemini-pro" })
-    .generateContentStream(messages);
+  const response = await cohere.chatStream({
+    message: lastMessage.message,
+    chatHistory,
+  });
 
-  // Convert the response into a friendly text-stream
-  const stream = GoogleGenerativeAIStream(geminiStream);
+  const stream = new ReadableStream({
+    async start(controller) {
+      for await (const event of response) {
+        if (event.eventType === "text-generation") {
+          controller.enqueue(event.text);
+        }
+      }
+      controller.close();
+    },
+  });
 
-  // Respond with the stream
-  return new StreamingTextResponse(stream);
+  return new Response(stream);
 }

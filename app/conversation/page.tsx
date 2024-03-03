@@ -1,28 +1,26 @@
-import { PromptForm } from "@/components/prompt-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import Chat from "@/components/usechat";
 const Conversation = () => {
-  const handleSubmit = () => {};
   return (
     <>
       <div className="flex h-screen flex-col items-center justify-center p-4">
         <div className="space-y-1">
-          <h1 className="text-4xl font-bold leading-none">
+          <h1 className="relative z-20 bg-gradient-to-r from-green-400 to-purple-300 bg-clip-text py-8 font-bold text-transparent sm:text-2xl md:text-4xl">
             Start Chatting with AI
           </h1>
-          <p className="text-xl text-gray-500 dark:text-gray-400">
+          <p className="flex justify-start p-2 text-xl text-gray-500 dark:text-gray-400">
             Online
             <span className="ml-2 inline-block h-2 w-2 rounded-full bg-green-500" />
           </p>
         </div>
-        <div className="rounder-md m-6 flex w-[400px] flex-col justify-end rounded border border-gray-200 p-4 p-8">
-          <div className="flex justify-start">Hello there</div>
-          <div className="flex justify-end">Hello Boy</div>
-        </div>
-
-        <div className="mt-4 flex w-[400px] items-center space-x-4">
-          <PromptForm />
-        </div>
+        <div className="">
+          <div className="ax-w-4xl mx-auto my-8 mb-4 rounded-lg bg-white p-6 shadow-md">
+            {/* <PromptForm /> */}
+            <Chat />
+            {/* <ChatInput /> */}
+          </div>
+        </div>{" "}
       </div>
     </>
   );
