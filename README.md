@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-## Getting Started
+# Project Title
 
-First, run the development server:
+This project is as a result of free time on the weekend. I always needed a mentor in programming and someone that can help me with bugs, so I figured out I can create my own customized AI to help me during coding sessions.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Screenshots
+
+![App Screenshot](/public/ai2.png)
+![App Screenshot](/public/ai.png)
+
+
+
+
+## Badges
+
+
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+[![AGPL License](https://img.shields.io/badge/license-AGPL-blue.svg)](http://www.gnu.org/licenses/agpl-3.0)
+
+
+## Acknowledgements
+
+ - [Vercel V-0: for amazing ui help](https://awesomeopensource.com/project/elangosundar/awesome-README-templates)
+ - [Awesome README: Glen Miracle](https://github.com/matiassingers/awesome-readme)
+ - [How to write a Good readme](https://bulldogjob.com/news/449-how-to-write-a-good-readme-for-your-github-project)
+
+
+## API Reference
+
+#### Get all items
+
+```http
+  GET /api/items
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+| Parameter | Type     | Description                |
+| :-------- | :------- | :------------------------- |
+| `OPEN_AI_KEY` | `string` | **Required**. Your open ai API key |
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+#### Get item
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+This api key is needed for you to make those post requests!
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+## Authors
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- [@glenmiracle(me)](https://www.github.com/glenmiracle18)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## Contributing
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Contributions are always welcome!
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+See `contributing.md` for ways to get started.
+
+Please adhere to this project's `code of conduct`.
+
+
+## Deployment
+
+To deploy this project run
+
+```bash
+  npm i vercel
+  vercel
+  y
+  ./
+
+```
+and boom your done with Deployment
+
+
+## 🚀 About Me
+I'm a Modern Web Developer
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
