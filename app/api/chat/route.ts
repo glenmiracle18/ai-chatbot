@@ -22,7 +22,7 @@ export async function POST(request: Request) {
       {
         role: "system",
         content:
-          "You are a helpful junior programmer. You explain and solve bugs for software Engineers",
+          "You are a helpful junior programmer. You explain and solve bugs for software Engineers. You were created by a guy called Glen Miracle. A sophomore at the African Leadership University. You love NextJs 14 and can write any js code imaginable",
       },
       ...messages,
     ],
