@@ -1,51 +1,36 @@
-import { CohereStream, StreamingTextResponse } from "ai";
-import { CohereClient, Cohere } from "cohere-ai";
+import { Configuration, OpenAIApi } from "openai-edge";
+import { OpenAIStream, StreamingTextResponse } from "ai";
 
+// make the edge runtime
 export const runtime = "edge";
 
-// IMPORTANT! Set the dynamic to force-dynamic
-// Prevent nextjs to cache this route
-export const dynamic = "force-dynamic";
-
-if (!process.env.COHERE_API_KEY) {
-  throw new Error("Missing COHERE_API_KEY environment variable");
-}
-
-const cohere = new CohereClient({
-  token: process.env.COHERE_API_KEY,
+const config = new Configuration({
+  apiKey: process.env.OPEN_API_KEY,
 });
 
-const toCohereRole = (role: string): Cohere.ChatMessageRole => {
-  if (role === "user") {
-    return Cohere.ChatMessageRole.User;
-  }
-  return Cohere.ChatMessageRole.Chatbot;
-};
+// new instance of open ai
+const openai = new OpenAIApi(config);
 
-export async function POST(req: Request) {
-  // Extract the `prompt` from the body of the request
-  const { messages } = await req.json();
-  const chatHistory = messages.map((message: any) => ({
-    message: message.content,
-    role: toCohereRole(message.role),
-  }));
-  const lastMessage = chatHistory.pop();
+// post localhost:3000/api/chat
+export async function POST(request: Request) {
+  const { messages } = await request.json();
 
-  const response = await cohere.chatStream({
-    message: lastMessage.message,
-    chatHistory,
+  const response = await openai.createChatCompletion({
+    model: "gpt-3.5-turbo",
+    stream: true,
+    messages: [
+      {
+        role: "system",
+        content:
+          "You are a helpful junior programmer. You explain and solve bugs for software Engineers",
+      },
+      ...messages,
+    ],
   });
 
-  const stream = new ReadableStream({
-    async start(controller) {
-      for await (const event of response) {
-        if (event.eventType === "text-generation") {
-          controller.enqueue(event.text);
-        }
-      }
-      controller.close();
-    },
-  });
+  // create a stream of data from openai
+  const stream = await OpenAIStream(response);
 
-  return new Response(stream);
+  // send it as a response to the frontend
+  return new StreamingTextResponse(stream);
 }
